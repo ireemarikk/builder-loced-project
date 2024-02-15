@@ -1,34 +1,16 @@
-let express = require("express");
-let bodyParser = require("body-parser");
-let mongoose = require("mongoose");
-let cors = require("cors");
-const dotenv = require("dotenv");
+const express = require("express");
+const app = express();
+const cors = require("cors");
+const connection = require("./database/db");
 
-
-dotenv.config();
-let port= process.env.port;
-let dbcon = process.env.cloud_mongodb_con;
-
-// bu kod ile tüm uygulamalar ile bağlantı kurulabilir
-let app = new express();
+app.use(express.json());
 app.use(cors());
-app.use(bodyParser.urlencoded({extended:true}));
-app.use(bodyParser.json());
 
-mongoose.connect(dbcon,{
-    useNewUrlParser: true,
-    useUnifiedTopology:true
-});
+const authRouter = require("./routers/auth.router");
 
-var con = mongoose.connection;
+// app.use("/api/auth", authRouter)
 
-if(!con) console.log("mongoDB'ye bağlanılamadı.")
-else{ console.log("mongoDB'ye bağlandı")}
+connection();
 
-app.get("/", (req,res)=>{
-    res.send("Hello world")
-});
-
-app.listen(port,()=>{
-    console.log("nodejs server çalışıyor")
-})
+const port = process.env.PORT || 5000;
+app.listen(port,()=> console.log("Uygulama http://localhost:5000 portunda ayağa kalktı!"));
