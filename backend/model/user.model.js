@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-var schema = mongoose.Schema;
+const schema = mongoose.Schema;
 
-var userSchema = new schema({
+const userSchema = new schema({
 
     name:{
         type: String,
@@ -25,7 +25,7 @@ var userSchema = new schema({
         unique: true
     },
     tcNo:{
-        type: number,
+        type: Number,
         require: true,
         unique: true
     },
@@ -49,7 +49,7 @@ var userSchema = new schema({
         require: true,
         unique: false
     },
-    created:{
+    createdDate:{
         type:Date,
         default:()=>{
             return new Date()
